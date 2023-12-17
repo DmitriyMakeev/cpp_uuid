@@ -1,4 +1,4 @@
-Python UUID module written in C++
+Fast python UUID module written in C++
 ########################################################
 
 .. image:: https://github.com/DmitriyMakeev/cpp_uuid/actions/workflows/build.yml/badge.svg?branch=main
