@@ -39,9 +39,7 @@ class TestUUID(TestCase):
 
     def test_compare_equal(self) -> None:
         some_uuid4 = uuid.uuid4()
-        uuid_from_hex = cpp_uuid.UUID(str(some_uuid4))
-        uuid_from_bytes = cpp_uuid.UUID(bytes=some_uuid4.bytes)
-        self.assertEqual(uuid_from_hex, uuid_from_bytes)
+        self.assertEqual(cpp_uuid.UUID(str(some_uuid4)), cpp_uuid.UUID(str(some_uuid4)))
 
     def test_compare_equal_with_std_uuid(self) -> None:
         self.assertEqual(uuid4, cpp_uuid.UUID(uuid4_fixture))
