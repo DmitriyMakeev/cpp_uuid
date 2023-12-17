@@ -1,0 +1,28 @@
+[project]
+name = 'cpp-uuid'
+description = 'Python UUID module written in C++'
+version = '1.0.0'
+authors = [
+  {email = 'makeev.dimitry@gmail.com'},
+  {name = 'Dmitriy Makeev'},
+]
+readme = 'README.rst'
+requires-python = '>=3.8'
+license = {file = 'LICENSE.txt'}
+keywords = ['uuid', 'uuid4', 'c++', 'cpp']
+
+[project.urls]
+repository = 'https://github.com/DmitriyMakeev/cpp_uuid'
+
+[build-system]
+requires = ['setuptools>=30.3.0']
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = py3{8,9,10,11,12}
+
+[testenv]
+deps = pytest
+commands = python -m pytest tests/
+"""
