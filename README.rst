@@ -1,6 +1,9 @@
 Python UUID module written in C++
 ########################################################
 
+.. image:: https://github.com/DmitriyMakeev/cpp_uuid/actions/workflows/build.yml/badge.svg?branch=main
+  :alt: Build status
+
 ``cpp_uuid`` is a Python library written in ``C++``.
 It provides an API that, in most cases, covers usage of Python's builtin ``UUID`` class.
 The library implements generate, convert to string and parse UUIDs version 4.
