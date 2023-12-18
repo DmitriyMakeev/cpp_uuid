@@ -2,20 +2,24 @@
 name = 'cpp-uuid'
 description = 'Python UUID module written in C++'
 version = '1.0.0'
-authors = [
-  {email = 'makeev.dimitry@gmail.com'},
-  {name = 'Dmitriy Makeev'},
-]
+authors = [{ name = 'Dmitriy Makeev', email = 'makeev.dimitry@gmail.com' }]
 readme = 'README.rst'
 requires-python = '>=3.8'
-license = {file = 'LICENSE.txt'}
+license = { file = 'LICENSE' }
 keywords = ['uuid', 'uuid4', 'c++', 'cpp']
+dependencies = []
+classifiers = [
+    'License :: OSI Approved :: MIT License',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+]
 
 [project.urls]
 repository = 'https://github.com/DmitriyMakeev/cpp_uuid'
 
 [build-system]
-requires = ['setuptools>=30.3.0']
+requires = ['setuptools>=30.3.0', 'wheel']
+build-backend = 'setuptools.build_meta'
 
 [tool.tox]
 legacy_tox_ini = """
