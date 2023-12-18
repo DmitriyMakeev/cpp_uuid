@@ -6,7 +6,7 @@ authors = [{ name = 'Dmitriy Makeev', email = 'makeev.dimitry@gmail.com' }]
 readme = 'README.rst'
 requires-python = '>=3.8'
 license = { file = 'LICENSE' }
-keywords = ['uuid', 'uuid4', 'c++', 'cpp']
+keywords = ['python3', 'fast', 'uuid', 'uuid4', 'c++', 'cpp']
 dependencies = []
 classifiers = [
     'License :: OSI Approved :: MIT License',
@@ -15,7 +15,7 @@ classifiers = [
 ]
 
 [project.urls]
-repository = 'https://github.com/DmitriyMakeev/cpp_uuid'
+Source = 'https://github.com/DmitriyMakeev/cpp_uuid'
 
 [build-system]
 requires = ['setuptools>=30.3.0', 'wheel']

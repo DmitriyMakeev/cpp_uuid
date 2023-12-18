@@ -18,6 +18,7 @@ setup(
     version='1.0.0',
     package_dir={'': 'src'},
     long_description=read_readme('README.rst'),
+    long_description_content_type='text/x-rst',
     zip_safe=False,
     ext_modules=[
         Extension(
