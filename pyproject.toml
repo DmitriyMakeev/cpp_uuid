@@ -1,7 +1,7 @@
 [project]
 name = 'cpp-uuid'
 description = 'Python UUID module written in C++'
-version = '1.0.0'
+version = '1.0.1'
 authors = [{ name = 'Dmitriy Makeev', email = 'makeev.dimitry@gmail.com' }]
 readme = 'README.rst'
 requires-python = '>=3.8'

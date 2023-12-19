@@ -10,7 +10,7 @@ def read_readme(path: str) -> str:
 
 setup(
     name='cpp-uuid',
-    version='1.0.0',
+    version='1.0.1',
     package_dir={'': 'src'},
     long_description=read_readme('README.rst'),
     long_description_content_type='text/x-rst',
