@@ -1,11 +1,6 @@
 import os
 
-from setuptools import Extension, dist, setup
-
-
-class BinaryDistribution(dist.Distribution):
-    def has_ext_modules(self):
-        return super().has_ext_modules()
+from setuptools import Extension, setup
 
 
 def read_readme(path: str) -> str:
@@ -19,7 +14,6 @@ setup(
     package_dir={'': 'src'},
     long_description=read_readme('README.rst'),
     long_description_content_type='text/x-rst',
-    zip_safe=False,
     ext_modules=[
         Extension(
             'cpp_uuid',
@@ -28,5 +22,4 @@ setup(
             extra_compile_args=['-Ofast', '-march=native'],
         )
     ],
-    distclass=BinaryDistribution,
 )

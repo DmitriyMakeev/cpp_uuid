@@ -1,37 +1,18 @@
 #include <iostream>
 #include <string>
 
-#include "include/uuid.h"
+#include "uuid.h"
 
 UUIDv4::UUIDGenerator<std::mt19937_64> uuidGenerator;
 
 static PyMethodDef moduleFunctions[] = {
-        {
-                .ml_name = "UUID",
-                .ml_meth = &Python_UUID,
-                .ml_flags = METH_VARARGS,
-                .ml_doc =
-                "Create a UUID from either a string or a string of 16 bytes.\n\n"
-                "When a string of hex digits is given, curly braces, hyphens, and a URN prefix are all optional.\n\n",
-        },
-        {
-                .ml_name = "uuid4",
-                .ml_meth = Python_uuid4,
-                .ml_flags = METH_NOARGS,
-                .ml_doc = "Generate a random UUID v4.",
-        },
+        {"UUID", &Python_UUID, METH_VARARGS, nullptr},
+        {"uuid4", Python_uuid4, METH_NOARGS, nullptr},
         {nullptr, nullptr, 0, nullptr},
 };
 
 /* Module Definition */
-static struct PyModuleDef moduleDefinitions{
-        PyModuleDef_HEAD_INIT,
-        "cpp_uuid",
-        "UUID objects (universally unique identifiers) according to RFC 4122 written in C.\n"
-        "This module replaces uuid4() function and UUID object (class UUID) from Python-builtin library.",
-        -1,
-        moduleFunctions,
-};
+static struct PyModuleDef moduleDefinitions{ PyModuleDef_HEAD_INIT, "cpp_uuid", nullptr, -1, moduleFunctions };
 
 static PyObject *Python_UUID_new(PyTypeObject *type, PyObject *args, PyObject *kwargs) {
     UUID_struct *self;
@@ -47,9 +28,11 @@ static int Python_UUID_init(UUID_struct *self, PyObject *args, PyObject *kwargs)
         return -1;
 
     if (arg_hex != nullptr) {
+        // TODO check string
         self->uuid = UUIDv4::UUID::fromStrFactory(arg_hex);
 
     } else if (arg_bytes != nullptr) {
+        // TODO check length
         UUIDv4::UUID uuid((uint8_t *) arg_bytes);
         self->uuid = uuid;
 
@@ -77,13 +60,7 @@ static PyObject *Python_UUID_bytes(UUID_struct *self, char *name) {
 }
 
 static PyGetSetDef Python_UUID_getset[] = {
-        {
-                .name = "bytes",
-                .get = (getter) Python_UUID_bytes,
-                .set = nullptr,
-                .doc = "UUID as a 16-byte string.",
-                .closure = nullptr,
-        },
+        {"bytes", (getter) Python_UUID_bytes},
         {nullptr},
 };
 
@@ -149,22 +126,26 @@ PyTypeObject UUIDType = {
 
 /* Module Initialization */
 PyMODINIT_FUNC PyInit_cpp_uuid(void) {
-    Py_Initialize();
-    PyObject * pModule = PyModule_Create(&moduleDefinitions);
-
+    PyObject *pModule;
     if (PyType_Ready(&UUIDType) < 0)
-        return nullptr;
+        return NULL;
+
+    pModule = PyModule_Create(&moduleDefinitions);
+    if (pModule == NULL)
+        return NULL;
 
     Py_INCREF(&UUIDType);
-    PyModule_AddObject(pModule, "UUID", (PyObject *) &UUIDType);
+    if (PyModule_AddObject(pModule, "UUID", (PyObject *) &UUIDType) < 0) {
+        Py_DECREF(&UUIDType);
+        Py_DECREF(pModule);
+        return NULL;
+    }
+
     return pModule;
 }
 
 PyObject *Python_uuid4(PyObject * self, PyObject * args) {
-    UUIDv4::UUID uuid = uuidGenerator.getUUID();
-    PyObject * value = PyUnicode_FromString(uuid.str().c_str());
-    PyObject * obj = PyObject_CallFunction((PyObject *) &UUIDType, "s", value);
-    Py_DECREF(value);
+    PyObject* obj = PyObject_CallFunctionObjArgs((PyObject *) &UUIDType, nullptr);
     return (PyObject *) obj;
 }
 

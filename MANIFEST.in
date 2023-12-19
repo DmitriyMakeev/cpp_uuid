@@ -1,1 +1,1 @@
-include src/cpp_uuid/include/*.*
+include src/cpp_uuid/*.*

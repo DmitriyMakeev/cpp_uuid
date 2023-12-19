@@ -14,42 +14,37 @@ def benchmark(cls, times) -> dict:
     timestamp = time.time()
     for _ in range(times):
         cls.UUID('c5fcf05c-6320-47ec-98c0-be84fdb1c321')
-    results['uuid_from_string'] = int((time.time() - timestamp) * 1000)
+    results['UUID from str'] = time.time() - timestamp
 
     timestamp = time.time()
     for _ in range(times):
         cls.UUID(bytes=b'\xc5\xfc\xf0\\c G\xec\x98\xc0\xbe\x84\xfd\xb1\xc3!')
-    results['uuid_from_bytes'] = int((time.time() - timestamp) * 1000)
+    results['UUID from bytes'] = time.time() - timestamp
 
     timestamp = time.time()
     for _ in range(times):
         cls.uuid4()
-    results['uuid4'] = int((time.time() - timestamp) * 1000)
+    results['uuid4()'] = time.time() - timestamp
 
     timestamp = time.time()
     for _ in range(times):
         str(uuid_value)
-    results['to_str'] = int((time.time() - timestamp) * 1000)
+    results['str(uuid)'] = time.time() - timestamp
 
     timestamp = time.time()
     for _ in range(times):
         uuid_value.bytes
-    results['to_bytes'] = int((time.time() - timestamp) * 1000)
+    results['uuid.bytes'] = time.time() - timestamp
 
     timestamp = time.time()
     for _ in range(times):
         hash(uuid_value)
-    results['hash'] = int((time.time() - timestamp) * 1000)
+    results['hash(uuid)'] = time.time() - timestamp
 
     timestamp = time.time()
     for _ in range(times):
         uuid_value == other_value
-    results['equals'] = int((time.time() - timestamp) * 1000)
-
-    timestamp = time.time()
-    for _ in range(times):
-        uuid_value > other_value
-    results['greater'] = int((time.time() - timestamp) * 1000)
+    results['compare UUIDs'] = time.time() - timestamp
 
     return results
 
@@ -60,28 +55,13 @@ for cls in [uuid, fastuuid, cpp_uuid]:
     total[cls.__name__] = benchmark(cls, TIMES)
 
 
-def table_sep():
-    print('+'.ljust(20, '='), end='+')
-    for _ in total.keys():
-        print(''.rjust(10, '='), end='+')
-    print()
-
-
-table_sep()
-
-print('|'.ljust(20), end='|')
+print('   * -')
 for key in total.keys():
-    print(key.ljust(10), end='|')
-print()
-
-table_sep()
+    print(f'     - ``{key}`` (ms)')
 
 tests = list(total['uuid'].keys())
 
 for name in tests:
-    print(f'|{name}'.ljust(20), end='|')
+    print(f'   * - {name}')
     for key in total.keys():
-        print(str(total[key][name]).rjust(10), end='|')
-    print()
-
-table_sep()
+        print(f'     - {int(total[key][name] * 1000)}')
